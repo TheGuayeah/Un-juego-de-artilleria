@@ -364,6 +364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2665992309122924422}
   - component: {fileID: 59425942252755640}
+  - component: {fileID: 1946995610786545213}
   - component: {fileID: 2665992309122924445}
   - component: {fileID: 2665992309122924440}
   - component: {fileID: 2665992309122924443}
@@ -418,6 +419,24 @@ MonoBehaviour:
   gun: {fileID: 7090211838929304449}
   IAmAnEnemy: 0
   HasTurn: 0
+--- !u!114 &1946995610786545213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2665992309122924433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8b3be795e06a14b9a7be7e5e46b592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  repeatDamagePeriod: 2
+  ouchClips: []
+  hurtForce: 10
+  damageAmount: 10
+  healthBar: {fileID: 0}
 --- !u!95 &2665992309122924445
 Animator:
   serializedVersion: 3

@@ -63,6 +63,42 @@ namespace PEC3
             pivot.rotation = Quaternion.Euler(0, 0, tilt);
         }
 
+        public IEnumerator Taunt()
+        {
+            float tauntChance = Random.Range(0f, 100f);
+            if (tauntChance > tauntProbability)
+            {
+                yield return new WaitForSeconds(tauntDelay);
+
+                if (!GetComponent<AudioSource>().isPlaying)
+                {
+                    tauntIndex = TauntRandom();
+
+                    GetComponent<AudioSource>().clip = taunts[tauntIndex];
+                    GetComponent<AudioSource>().Play();
+                }
+            }
+        }
+
+        int TauntRandom()
+        {
+            int i = Random.Range(0, taunts.Length);
+
+            if (i == tauntIndex)
+                return TauntRandom();
+            else
+                return i;
+        }
+
+        protected void Flip()
+        {
+            facingRight = !facingRight;
+
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+        }
+
         private void ActualizarAccionDown(KeyCode code)
         {
             if (!actions.Contains(code))

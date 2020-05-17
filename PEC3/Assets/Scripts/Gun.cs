@@ -10,10 +10,11 @@ namespace PEC3
         public float Speed = 20f;
 
         private Animator anim;
+
         public Sprite AttackBarSprite;
 
         private Transform attackBar;
-
+        private float targetSpeed;
 
         private enum States
         {
@@ -22,6 +23,9 @@ namespace PEC3
             Up
         }
         private States state = States.Up;
+
+        public delegate void GunFired();
+        public event GunFired gunFired;
 
         private void Awake()
         {
@@ -39,9 +43,15 @@ namespace PEC3
             spriteRenderer.sortingLayerID = transform.root.GetComponentInChildren<SpriteRenderer>().sortingLayerID;
         }
 
-
         private void Update()
         {
+            if (targetSpeed > 0)
+            {
+                state = States.Down;
+                if (Speed >= targetSpeed)
+                    state = States.Fire;
+            }
+
             switch (state)
             {
                 case States.Down:
@@ -60,10 +70,10 @@ namespace PEC3
             }
         }
 
-
         public void FireUp()
         {
-            state = States.Fire;
+            if (state == States.Down)
+                state = States.Fire;
         }
 
         public void FireDown()
@@ -77,11 +87,26 @@ namespace PEC3
             GetComponent<AudioSource>().Play();
 
             var bulletInstance = Instantiate(Rocket, transform.position, transform.rotation);
-            bulletInstance.velocity = transform.right.normalized * Speed;
 
-            Speed = 0;
+            if (transform.root.GetComponent<PlayerControl>().facingRight)
+                bulletInstance.velocity = transform.right.normalized * Speed;
+            else
+                bulletInstance.velocity = new Vector2(-transform.right.x, -transform.right.y).normalized * Speed;
+
+            bulletInstance.gameObject.tag = bulletInstance.GetComponentInChildren<Rocket>().IgnoreTag = transform.root.tag;
+
+            targetSpeed = Speed = 0;
             attackBar.localScale = Vector3.up * 2 + Vector3.forward;
+
+            if (gunFired != null)
+                gunFired();
+        }
+
+        public void Fire(float speed)
+        {
+            targetSpeed = speed;
         }
     }
+
 
 }
