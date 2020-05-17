@@ -238,10 +238,6 @@ public class PlayerControl : MonoBehaviour
     }
 
     #region Pressed Buttons
-    public void SaltaDown()
-    {
-        ActualizarAccionDown(KeyCode.Space);
-    }
     public void MueveDerechaDown()
     {
         ActualizarAccionDown(KeyCode.RightArrow);
